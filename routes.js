@@ -82,4 +82,12 @@ router.post("/:id/add-reservation/", async function (req, res, next) {
   return res.redirect(`/${customerId}/`);
 });
 
+/** Search Results: show list of customers matching search. */
+
+router.post("/search", async function (req, res, next) {
+  const { name } = req.body;
+  const customers = await Customer.searchByName(name);
+  return res.render("search_result.html", { customers });
+});
+
 module.exports = router;
