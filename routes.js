@@ -18,7 +18,7 @@ router.get("/", async function (req, res, next) {
 
 /** Search Results: show list of customers matching search. */
 
-router.post("/search", async function (req, res, next) {
+router.post("/search/", async function (req, res, next) { // update header for search and ph value
   const { name } = req.body;
   try {
     var customers = await Customer.searchByName(name);
@@ -30,7 +30,7 @@ router.post("/search", async function (req, res, next) {
 
 
 /** show top 10 customers with most reservations. */
-router.get("/top-customers", async function (req, res, next) {
+router.get("/top-customers/", async function (req, res, next) {
   const customers = await Customer.searchTopCustomers();
   return res.render("top_customers.html", { customers });
 });

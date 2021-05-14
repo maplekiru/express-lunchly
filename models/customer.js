@@ -14,7 +14,7 @@ class Customer {
     this.lastName = lastName;
     this.phone = phone;
     this.notes = notes;
-    this.fullName = this.fullName();
+    this.fullName = this.fullName(); // TODO!
   }
 
   /** find all customers. */
@@ -67,12 +67,10 @@ class Customer {
                     phone,
                     notes
               FROM customers
-              WHERE first_name ILIKE '%'||$1||'%' OR last_name ILIKE '%'||$1||'%'`, [name]);
+              WHERE first_name ILIKE $1 OR last_name ILIKE $1`, [`%${name}%`]);
 
     if (results.rows.length === 0) {
-      const err = new Error(`No matching customers`);
-      err.status = 404;
-      throw err;
+      throw new NotFoundError(`No matching customers`); // update type of error
     }
     return results.rows.map(c => new Customer(c));
   }

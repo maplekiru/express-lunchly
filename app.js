@@ -10,6 +10,13 @@ const { NotFoundError } = require("./expressError");
 
 const app = new Express();
 
+// TODO:
+
+// - Update search stuff
+// - Update fullname function
+// - Update HTML pages (includes)
+// 
+
 // Parse body for urlencoded (non-JSON) data
 app.use(bodyParser.urlencoded({ extended: false }));
 
