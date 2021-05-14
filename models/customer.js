@@ -69,6 +69,11 @@ class Customer {
               FROM customers
               WHERE first_name ILIKE '%'||$1||'%' OR last_name ILIKE '%'||$1||'%'`, [name]);
 
+    if (results.rows.length === 0) {
+      const err = new Error(`No matching customers`);
+      err.status = 404;
+      throw err;
+    }
     return results.rows.map(c => new Customer(c));
   }
 
@@ -81,9 +86,10 @@ class Customer {
                 last_name  AS "lastName",
                 COUNT(r.id) AS reservation_count
             FROM customers AS c JOIN reservations AS r ON r.customer_id=c.id 
-            GROUP BY c.id ORDER BY COUNT(r.customer_id) DESC
-            LIMIT 10`)
-            
+            GROUP BY c.id 
+            ORDER BY COUNT(r.customer_id) DESC
+            LIMIT 10`);
+
     return results.rows.map(c => new Customer(c));
   }
 
